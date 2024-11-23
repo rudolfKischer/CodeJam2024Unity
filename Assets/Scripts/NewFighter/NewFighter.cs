@@ -97,9 +97,9 @@ public class NewFighter : MonoBehaviour
         {
             currentInput.bPressed = poseInput.bPressed;
             poseInput.bPressed = false;
-            Debug.Log("Punching");
         }
         if (poseInput.jumpPressed) {
+            Debug.Log("Jump Pressed");
             currentInput.jumpPressed = poseInput.jumpPressed;
             poseInput.jumpPressed = false;
         }
@@ -107,7 +107,7 @@ public class NewFighter : MonoBehaviour
         if (poseInput.direction != 5)
         {
             currentInput.direction = poseInput.direction;
-            if(IsOnLeftSide) {
+            if(!IsOnLeftSide) {
                 if (poseInput.direction == 4)
                 {
                     currentInput.direction = 6;

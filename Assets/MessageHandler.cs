@@ -7,13 +7,13 @@ public class MessageHandler : MonoBehaviour
 {
     public NewFighter player; // Reference to the NewFighter (player) object
     public NewFighter opponent; // Reference to the Opponent object
-    public float jumpThreshold = 1.0f; // Threshold for vertical velocity to trigger jump
+    public float jumpThreshold = 0.5f; // Threshold for vertical velocity to trigger jump
 
     private Vector3 previousHeadPosition; // To calculate velocity of the head
     private bool initialized = false; // To check if the previous position is set
     private Vector3 previousRightHandPosition; // To calculate velocity of the right hand
     private bool handInitialized = false; // To check if the previous position is set
-    public float punchThreshold = 3.5f; // Threshold for hand velocity to detect a punch
+    public float punchThreshold = 4.5f; // Threshold for hand velocity to detect a punch
 
     // Method to receive pose data from React
     public void ReceivePoseData(string poseDataJson)
@@ -21,13 +21,15 @@ public class MessageHandler : MonoBehaviour
         // Parse the incoming JSON string into a list of pose landmarks
         List<PoseLandmark> poseLandmarks = PoseLandmark.FromJson(poseDataJson);
 
+        bool skipAttack = false;
+
         if (poseLandmarks != null && poseLandmarks.Count > 0)
         {
             // Assuming head position is the first landmark in the list (update as needed)
             PoseLandmark headLandmark = poseLandmarks[0];
             PoseLandmark rightHandLandmark = poseLandmarks[16];
 
-            Debug.Log($"Head position: {headLandmark.x}, {headLandmark.y}, {headLandmark.z}");
+            // Debug.Log($"Head position: {headLandmark.x}, {headLandmark.y}, {headLandmark.z}");
 
             Vector3 currentHeadPosition = new Vector3(headLandmark.x, headLandmark.y, headLandmark.z);
 
@@ -38,8 +40,9 @@ public class MessageHandler : MonoBehaviour
 
                 // Check if velocity exceeds threshold and player is on the ground
                 if (headVelocityY > jumpThreshold && player.onGround)
-                {
+                {   
                     player.poseInput.jumpPressed = true;
+                    skipAttack = true;
                 }
             }
 
@@ -62,7 +65,7 @@ public class MessageHandler : MonoBehaviour
 
             Vector3 currentRightHandPosition = new Vector3(rightHandLandmark.x, rightHandLandmark.y, rightHandLandmark.z);
 
-            if (handInitialized)
+            if (handInitialized && !skipAttack)
             {
                 // Calculate velocity along the x-axis or z-axis for punch detection
                 float handVelocityX = (currentRightHandPosition.x - previousRightHandPosition.x) / Time.deltaTime;
