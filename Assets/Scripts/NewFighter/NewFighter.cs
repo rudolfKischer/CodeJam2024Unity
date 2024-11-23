@@ -99,6 +99,10 @@ public class NewFighter : MonoBehaviour
             poseInput.bPressed = false;
             Debug.Log("Punching");
         }
+        if (poseInput.jumpPressed) {
+            currentInput.jumpPressed = poseInput.jumpPressed;
+            poseInput.jumpPressed = false;
+        }
 
         if (poseInput.direction != 5)
         {

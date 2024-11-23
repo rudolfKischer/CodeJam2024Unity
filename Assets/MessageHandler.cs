@@ -39,12 +39,7 @@ public class MessageHandler : MonoBehaviour
                 // Check if velocity exceeds threshold and player is on the ground
                 if (headVelocityY > jumpThreshold && player.onGround)
                 {
-                    // Calculate jump velocity
-                    Vector3 jumpVelocity = new Vector3(0f, player.verticalJumpSpeed, 0f);
-                    Debug.Log("Jumping");
-
-                    // Trigger the Jumping state
-                    player.SwitchState(new Jumping(player, jumpVelocity));
+                    player.poseInput.jumpPressed = true;
                 }
             }
 
