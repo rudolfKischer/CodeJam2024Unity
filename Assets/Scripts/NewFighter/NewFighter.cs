@@ -98,12 +98,6 @@ public class NewFighter : MonoBehaviour
             currentInput.bPressed = poseInput.bPressed;
             poseInput.bPressed = false;
         }
-        if (poseInput.jumpPressed) {
-            Debug.Log("Jump Pressed");
-            currentInput.jumpPressed = poseInput.jumpPressed;
-            poseInput.jumpPressed = false;
-        }
-
         if (poseInput.direction != 5)
         {
             currentInput.direction = poseInput.direction;
@@ -119,6 +113,33 @@ public class NewFighter : MonoBehaviour
             }
             poseInput.direction = 5;
         }
+        if (poseInput.jumpPressed) {
+            if(!IsOnLeftSide) {
+                if (poseInput.direction == 4)
+                {
+                    poseInput.direction = 6;
+                }
+                else if (poseInput.direction == 6)
+                {
+                    poseInput.direction = 4;
+                }
+            }
+            if (poseInput.direction == 6)
+            {
+                currentInput.direction = 9;
+            }
+            else if (poseInput.direction == 4)
+            {
+                currentInput.direction = 7;
+            } else {
+                currentInput.direction = 8;
+            }
+            Debug.Log("Jump Pressed");
+            currentInput.jumpPressed = poseInput.jumpPressed;
+            poseInput.jumpPressed = false;
+            poseInput.direction = 5;
+        }
+
         
 
         // Debug.Log("Current Input: " + currentInput);

@@ -21,8 +21,6 @@ public class MessageHandler : MonoBehaviour
         // Parse the incoming JSON string into a list of pose landmarks
         List<PoseLandmark> poseLandmarks = PoseLandmark.FromJson(poseDataJson);
 
-        bool skipAttack = false;
-
         if (poseLandmarks != null && poseLandmarks.Count > 0)
         {
             // Assuming head position is the first landmark in the list (update as needed)
@@ -42,7 +40,6 @@ public class MessageHandler : MonoBehaviour
                 if (headVelocityY > jumpThreshold && player.onGround)
                 {   
                     player.poseInput.jumpPressed = true;
-                    skipAttack = true;
                 }
             }
 
@@ -65,7 +62,7 @@ public class MessageHandler : MonoBehaviour
 
             Vector3 currentRightHandPosition = new Vector3(rightHandLandmark.x, rightHandLandmark.y, rightHandLandmark.z);
 
-            if (handInitialized && !skipAttack)
+            if (handInitialized)
             {
                 // Calculate velocity along the x-axis or z-axis for punch detection
                 float handVelocityX = (currentRightHandPosition.x - previousRightHandPosition.x) / Time.deltaTime;
