@@ -56,7 +56,9 @@ public class NewFighter : MonoBehaviour
     
     private InputInterpreter interpreter;
     public FighterState currentState;
-    private InputData currentInput;
+    public InputData currentInput;
+
+    public InputData poseInput;
     private HitData hitThisFrame;
 
     private void Awake()
@@ -90,6 +92,27 @@ public class NewFighter : MonoBehaviour
     private void Update()
     {
         currentInput = InputHelper.GetInputData(playerInput, IsOnLeftSide);
+
+        if (poseInput.bPressed)
+        {
+            currentInput.bPressed = poseInput.bPressed;
+            poseInput.bPressed = false;
+            Debug.Log("Punching");
+        }
+
+        if (poseInput.direction != 5)
+        {
+            currentInput.direction = poseInput.direction;
+            poseInput.direction = 5;
+        }
+        
+
+        // Debug.Log("Current Input: " + currentInput);
+        // Debug.Log("Direction: " + currentInput.direction);
+        // Debug.Log("A: " + currentInput.aPressed);
+        // Debug.Log("B: " + currentInput.bPressed);
+        // Debug.Log("C: " + currentInput.cPressed);
+        
         if (!paused)
         {
             onGround = Physics2D.Raycast(boxCollider.bounds.center, Vector2.down, boxCollider.bounds.extents.y + 0.015f, LayerMask.GetMask("Default"));
