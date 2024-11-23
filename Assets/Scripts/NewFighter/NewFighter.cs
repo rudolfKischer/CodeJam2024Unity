@@ -103,6 +103,16 @@ public class NewFighter : MonoBehaviour
         if (poseInput.direction != 5)
         {
             currentInput.direction = poseInput.direction;
+            if(IsOnLeftSide) {
+                if (poseInput.direction == 4)
+                {
+                    currentInput.direction = 6;
+                }
+                else if (poseInput.direction == 6)
+                {
+                    currentInput.direction = 4;
+                }
+            }
             poseInput.direction = 5;
         }
         
