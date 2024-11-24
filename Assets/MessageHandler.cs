@@ -12,6 +12,7 @@ public class MessageHandler : MonoBehaviour
     private Vector3 previousHeadPosition; // To calculate velocity of the head
     private bool initialized = false; // To check if the previous position is set
     private Vector3 previousRightHandPosition; // To calculate velocity of the right hand
+    private Vector3 previousLeftHandPosition; // To calculate velocity of the left hand
     private bool handInitialized = false; // To check if the previous position is set
     public float punchThreshold = 4.5f; // Threshold for hand velocity to detect a punch
 
@@ -26,6 +27,7 @@ public class MessageHandler : MonoBehaviour
             // Assuming head position is the first landmark in the list (update as needed)
             PoseLandmark headLandmark = poseLandmarks[0];
             PoseLandmark rightHandLandmark = poseLandmarks[16];
+            PoseLandmark leftHandLandmark = poseLandmarks[15];
 
             // Debug.Log($"Head position: {headLandmark.x}, {headLandmark.y}, {headLandmark.z}");
 
@@ -61,6 +63,7 @@ public class MessageHandler : MonoBehaviour
             initialized = true;
 
             Vector3 currentRightHandPosition = new Vector3(rightHandLandmark.x, rightHandLandmark.y, rightHandLandmark.z);
+            Vector3 currentLeftHandPosition = new Vector3(leftHandLandmark.x, leftHandLandmark.y, leftHandLandmark.z);
 
             if (handInitialized)
             {
@@ -81,8 +84,21 @@ public class MessageHandler : MonoBehaviour
                 }
             }
 
+            if (handInitialized) {
+
+              float leftHandVelocityX = (currentLeftHandPosition.x - previousLeftHandPosition.x) / Time.deltaTime;
+
+              if (Mathf.Abs(leftHandVelocityX) > punchThreshold)
+              {
+                player.poseInput.cPressed = true;
+              }
+
+
+            }
+
             // Update the previous hand position for the next frame
             previousRightHandPosition = currentRightHandPosition;
+            previousLeftHandPosition = currentLeftHandPosition;
             handInitialized = true;
         }
 
