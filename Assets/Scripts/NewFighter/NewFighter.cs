@@ -92,12 +92,26 @@ public class NewFighter : MonoBehaviour
     private void Update()
     {
         currentInput = InputHelper.GetInputData(playerInput, IsOnLeftSide);
-
+        if (currentInput.aPressed)
+        {
+            Debug.Log("A Pressed");
+            currentInput.aPressed = poseInput.aPressed;
+            poseInput.aPressed = false;
+        }
         if (poseInput.bPressed)
         {
+            Debug.Log("B Pressed");
             currentInput.bPressed = poseInput.bPressed;
             poseInput.bPressed = false;
         }
+
+        if (poseInput.cPressed)
+        {
+            Debug.Log("C Pressed");
+            currentInput.cPressed = poseInput.cPressed;
+            poseInput.cPressed = false;
+        }
+
         if (poseInput.direction != 5)
         {
             currentInput.direction = poseInput.direction;
