@@ -48,6 +48,7 @@ public class Walking : FighterState
             }
             case 7:
             {
+                // jump back
                 if (currentInput.jumpPressed)
                 {
                     Vector3 jumpVelocity = Vector3.up * fighter.verticalJumpSpeed;
@@ -64,6 +65,7 @@ public class Walking : FighterState
             }
             case 9:
             {
+                // jump forward
                 if (currentInput.jumpPressed)
                 {
                     Vector3 jumpVelocity = Vector3.up * fighter.verticalJumpSpeed;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 class InputHelper
-{
+{   
     public static InputData GetInputData(PlayerInput playerInput, bool isOnLeftSide)
     {
         InputData data = new InputData();
